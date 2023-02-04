@@ -12,8 +12,12 @@ function addData(event){
     li.appendChild(document.createTextNode(userName+'--'+userEmail+'--'+userPhone));
    
     var deleteBtn = document.createElement('button');
+    var editBtn = document.createElement('button');
+    editBtn.className='edit-btn';
     deleteBtn.className = 'li_btn';
     deleteBtn.appendChild(document.createTextNode('delete'));
+    editBtn.appendChild(document.createTextNode('edit'));
+    li.appendChild(editBtn)
     li.appendChild(deleteBtn);
     ul.appendChild(li);
     
