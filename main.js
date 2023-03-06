@@ -30,6 +30,7 @@ function addData(event){
         email:userEmail ,
         phone:userPhone   
     }
+    // post
     axios.post("https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata",myObj)
     .then((response)=>{
         console.log(response)
@@ -38,6 +39,17 @@ function addData(event){
     .catch((err)=>{
         document.body.innerHTML=document.body.innerHTML +"<h4>something went wrong</h4>"
         console.log(err)
+    })
+    // get
+    axios.get("https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata",myObj)
+    .then((response)=>{
+        console.log(response)
+        for(var i=0; i<response.data.length;i++){
+            showUserDetail(response.data[i])
+        }
+    })
+    .catch((error)=>{
+        console.log(error)
     })
 
 
