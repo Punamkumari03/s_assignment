@@ -2,6 +2,9 @@ var ul=document.getElementById('item')
 ul.addEventListener('click', removeItem);
 function addData(event){
     event.preventDefault()
+
+
+
     var userName=document.getElementById('name').value;
     var userEmail=document.getElementById('email').value;
     var userPhone=document.getElementById('phone').value;
@@ -27,8 +30,41 @@ function addData(event){
         email:userEmail ,
         phone:userPhone   
     }
-    let myObj_serialized=JSON.stringify(myObj);
-    localStorage.setItem(myObj.email,myObj_serialized)
+    axios.post("https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata",myObj)
+    .then((response)=>{
+        console.log(response)
+        showUserDetail(response.data)
+    })
+    .catch((err)=>{
+        document.body.innerHTML=document.body.innerHTML +"<h4>something went wrong</h4>"
+        console.log(err)
+    })
+
+
+
+    function showUserDetail(){
+        var userName=document.getElementById('name').value;
+    var userEmail=document.getElementById('email').value;
+    var userPhone=document.getElementById('phone').value;
+  
+   
+    var li = document.createElement('li');
+    li.className = 'l_items';
+    li.appendChild(document.createTextNode(userName+'--'+userEmail+'--'+userPhone));
+   
+    var deleteBtn = document.createElement('button');
+    var editBtn = document.createElement('button');
+    editBtn.className='edit-btn';
+    deleteBtn.className = 'li_btn';
+    deleteBtn.appendChild(document.createTextNode('delete'));
+    editBtn.appendChild(document.createTextNode('edit'));
+    li.appendChild(editBtn)
+    li.appendChild(deleteBtn);
+    ul.appendChild(li);
+    }
+    showUserDetail()
+    // let myObj_serialized=JSON.stringify(myObj);
+    // localStorage.setItem(myObj.email,myObj_serialized)
    
 
     // localStorage.setItem('Name',myObj.name)
