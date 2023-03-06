@@ -1,5 +1,6 @@
 var ul=document.getElementById('item')
 ul.addEventListener('click', removeItem);
+ul.addEventListener('click', editData);
 function addData(event){
     event.preventDefault()
 
@@ -118,3 +119,49 @@ function removeItem(event){
     }
 
   }
+  function editData(event){
+    if (event.target.classList.contains('edit-btn')){
+        let li = event.target.parentElement;
+        let data = li.textContent;
+        data = data.split('--') ;
+        myName.value = data[0]
+        myEmail.value = data[1]
+        phone.value = data[2]
+        const id = data[3]
+
+        let obj1 = {
+            name :myName.value,
+            email:myEmail.value,
+            phone : phone.value
+        }
+
+        axios.put(`https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata/${id}`,obj1)
+     .then(response=>{
+       console.log(response)
+    })
+     .catch(e=>{console.log(e)})
+     .then(
+        axios.get(`https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata/${id}`)
+     .then(response=>{
+      console.log(response)
+      for(var i = 0;i<response.data.length;i++){
+
+          showUserDetail(response.data[i])
+      }
+    })
+     .catch(e=>{console.log(e)})
+     )
+
+
+     ul.removeChild(li);
+
+    }
+  }
+    
+
+
+
+
+
+
+   
