@@ -41,7 +41,7 @@ function addData(event){
         console.log(err)
     })
     // get
-    axios.get("https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata",myObj)
+    axios.get("https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata")
     .then((response)=>{
         console.log(response)
         for(var i=0; i<response.data.length;i++){
@@ -51,10 +51,12 @@ function addData(event){
     .catch((error)=>{
         console.log(error)
     })
+   
+    
 
 
 
-    function showUserDetail(){
+    function showUserDetail(user){
         var userName=document.getElementById('name').value;
     var userEmail=document.getElementById('email').value;
     var userPhone=document.getElementById('phone').value;
@@ -62,7 +64,7 @@ function addData(event){
    
     var li = document.createElement('li');
     li.className = 'l_items';
-    li.appendChild(document.createTextNode(userName+'--'+userEmail+'--'+userPhone));
+    li.appendChild(document.createTextNode(user.name+'--'+user.email+'--'+user.phone+'--'+user._id+'--'));
    
     var deleteBtn = document.createElement('button');
     var editBtn = document.createElement('button');
@@ -88,17 +90,30 @@ function removeItem(event){
     if(event.target.classList.contains('li_btn')){
       
         var li = event.target.parentElement;
+        var data=li.textContent
+        data=data.split('--')
+        var id=data[3]
+        axios.delete(`https://crudcrud.com/api/9d5bf1646948481294bdece074925249/appoitmentdata/${id}`)
+        .then((response)=>{
+            console.log(response)
+            for(var i=0; i<response.data.length;i++){
+                showUserDetail(response.data[i])
+            }
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
         ul.removeChild(li);
-        var userName=document.getElementById('name').value;
-        var userEmail=document.getElementById('email').value;
-        var userPhone=document.getElementById('phone').value;
-        let myObj ={
-            name:userName,
-            email:userEmail ,
-            phone:userPhone   
-        }
-        let myObj_serialized=JSON.stringify(myObj);
-        localStorage.removeItem(myObj.email,myObj_serialized)
+        // var userName=document.getElementById('name').value;
+        // var userEmail=document.getElementById('email').value;
+        // var userPhone=document.getElementById('phone').value;
+        // let myObj ={
+        //     name:userName,
+        //     email:userEmail ,
+        //     phone:userPhone   
+        // }
+        // let myObj_serialized=JSON.stringify(myObj);
+        // localStorage.removeItem(myObj.email,myObj_serialized)
       
     }
 
